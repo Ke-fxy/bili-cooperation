@@ -11,7 +11,19 @@
     </resultMap>
 
     <select id="selectByIdAndName" resultType="com.bili.bean.User">
-        select * from user where id = #{id} and username = #{username}
+        select *
+        from user
+        where id = #{id} and username = #{username}
     </select>
 
+    <insert id="register" parameterType="com.bili.bean.User">
+        insert into user (id,username,password,phone)
+        values (#{id},#{username},#{password},#{phone})
+    </insert>
+
+    <select id="selectByName" resultMap="UserMap">
+        select *
+        from user
+        where username = #{username}
+    </select>
 </mapper>

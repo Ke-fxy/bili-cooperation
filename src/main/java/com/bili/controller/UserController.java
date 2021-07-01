@@ -20,14 +20,42 @@ public class UserController {
 
     /**
      * 登录功能实现
-     * @return 返回0表示失败，返回1表示成功
+     * @return
      */
-    @RequestMapping(value = "/login",method = RequestMethod.GET)
-    @ResponseBody
-    public User login(@RequestParam("id")Integer id, @RequestParam("password") String password){
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public String login(@RequestParam("id")Integer id, @RequestParam("password") String password){
         if(userService.login(id,password)!=null){
-            return userService.login(id, password);
+            return "index";
         }
-        return null;
+        return "login";
+    }
+
+    /**
+     * 注册功能实现
+     * @param id
+     * @param username
+     * @param password
+     * @param phone
+     * @return
+     */
+    @RequestMapping(value = "/register",method = RequestMethod.POST)
+    public String register(@RequestParam("id") Integer id,@RequestParam("username") String username,@RequestParam("password") String password,@RequestParam("phone") String phone){
+        if(userService.existsUsername(username)==1){
+            return "register";
+        }else{
+            if (userService.register(new User(id,username,password,phone))==1){
+                return "login";
+            }
+        }
+        return "register";
+    }
+
+    @RequestMapping(value = "/checkUser",method = RequestMethod.POST)
+    @ResponseBody
+    public int existsUsername(@RequestParam("username") String username){
+        if (userService.existsUsername(username)==1){
+            return 1;
+        }
+        return 0;
     }
 }

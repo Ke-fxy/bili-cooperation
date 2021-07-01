@@ -13,4 +13,18 @@ public interface UserDao {
      * @param username
      */
     User selectByIdAndName(@Param("id") Integer id, @Param("username") String username);
+
+    /**
+     * 注册用户
+     * @param user
+     * @return
+     */
+    int register(User user);
+
+    /**
+     * 查询用户名是否相同
+     * @param username
+     * @return
+     */
+    User selectByName(@Param("username") String username);
 }

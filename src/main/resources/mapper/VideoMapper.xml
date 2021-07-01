@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bili.dao.VideoDao">
+
+    <insert id="insert" parameterType="com.bili.bean.Video">
+        insert into video(id,vName,vPath,vAuthor,vImg)
+        values (#{id},#{vName},#{vPath},#{vAuthor},#{vImg})
+    </insert>
+</mapper>
