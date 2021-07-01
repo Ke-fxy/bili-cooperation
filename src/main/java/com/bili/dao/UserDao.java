@@ -27,4 +27,11 @@ public interface UserDao {
      * @return
      */
     User selectByName(@Param("username") String username);
+
+    /**
+     * 通过id查询用户
+     * @param id
+     * @return
+     */
+    User selectById(@Param("id") Integer id);
 }

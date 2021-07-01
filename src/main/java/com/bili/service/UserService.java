@@ -36,4 +36,11 @@ public class UserService {
         }
         return 0;
     }
+
+    public User existsUser(Integer id){
+        if(userDao.selectById(id)!=null){
+            return userDao.selectById(id);
+        }
+        return null;
+    }
 }

@@ -14,7 +14,14 @@
 <form action="${Path}/upload" method="post" enctype="multipart/form-data">
     <input type="file" name="video">
     <input type="submit">
-    验证码：<img src="/kaptcha.jpg">
+    验证码：<img src="kaptcha.jpg" alt="" style="height: 40px;width: 80px">
+    <span>${sessionScope.id}</span>
 </form>
+<a href="${Path}/login1">111</a>
+<a href="${Path}/register1">111</a>
+
+<video controls width="99%" loop>
+    <source src="file:///E:/bili-cooperation/download/1.mp4" type="video/mp4">
+</video>
 </body>
 </html>

@@ -1,13 +1,18 @@
 package com.bili.controller;
 
+import com.bili.bean.Msg;
 import com.bili.bean.User;
 import com.bili.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Ihlov
@@ -23,10 +28,14 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/login",method = RequestMethod.POST)
-    public String login(@RequestParam("id")Integer id, @RequestParam("password") String password){
+    public String login(Model model, HttpServletRequest httpServletRequest, @RequestParam("id")Integer id, @RequestParam("password") String password){
         if(userService.login(id,password)!=null){
-            return "index";
+            HttpSession session = httpServletRequest.getSession();
+            session.setAttribute("id",id);
+            return "forward:index.jsp";
         }
+        model.addAttribute("msg","用户名或密码错误");
+        model.addAttribute("id","id");
         return "login";
     }
 
@@ -52,10 +61,20 @@ public class UserController {
 
     @RequestMapping(value = "/checkUser",method = RequestMethod.POST)
     @ResponseBody
-    public int existsUsername(@RequestParam("username") String username){
+    public Msg existsUsername(@RequestParam("username") String username){
         if (userService.existsUsername(username)==1){
-            return 1;
+            return Msg.fail();
         }
-        return 0;
+        return Msg.success();
+    }
+
+    @RequestMapping("/login1")
+    public String login1(){
+        return "Login";
+    }
+
+    @RequestMapping("/register1")
+    public String register(){
+        return "Register";
     }
 }
