@@ -11,7 +11,37 @@ public class User {
 
     private String password;
 
-    private String phone;
+    private String email;
+
+    private String img;
+
+    private String tag;
+
+    private String notice;
+
+    public String getNotice() {
+        return notice;
+    }
+
+    public void setNotice(String notice) {
+        this.notice = notice;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public Integer getId() {
         return id;
@@ -37,22 +67,25 @@ public class User {
         this.password = password;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email= email;
     }
 
     public User() {
     }
 
-    public User(Integer id, String username, String password, String phone) {
+    public User(Integer id, String username, String password, String email, String img, String tag, String notice) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.phone = phone;
+        this.email = email;
+        this.img = img;
+        this.tag = tag;
+        this.notice = notice;
     }
 
     @Override
@@ -61,7 +94,10 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", img='" + img + '\'' +
+                ", tag='" + tag + '\'' +
+                ", notice='" + notice + '\'' +
                 '}';
     }
 }

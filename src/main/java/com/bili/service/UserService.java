@@ -12,8 +12,8 @@ public class UserService {
     UserDao userDao;
 
     public User login(Integer id, String password){
-        if(userDao.selectByIdAndName(id, password)!=null){
-            return userDao.selectByIdAndName(id, password);
+        if(userDao.selectByIdAndPassword(id, password)!=null){
+            return userDao.selectByIdAndPassword(id, password);
         }
         return null;
     }
@@ -42,5 +42,20 @@ public class UserService {
             return userDao.selectById(id);
         }
         return null;
+    }
+
+    public User getInfo(Integer id) {
+        if (userDao.selectById(id)!=null){
+            return userDao.selectById(id);
+        }
+        return null;
+    }
+
+    public int changeTag(Object id, String tag) {
+        return userDao.updateTagById(id,tag);
+    }
+
+    public int changeNotice(Object id, String notice) {
+        return userDao.updateNoticeById(id,notice);
     }
 }

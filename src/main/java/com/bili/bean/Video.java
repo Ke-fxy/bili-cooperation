@@ -14,6 +14,18 @@ public class Video {
 
         private String vImg;
 
+        private String zone;
+
+        private String introduction;
+
+        public String getIntroduction() {
+                return introduction;
+        }
+
+        public void setIntroduction(String introduction) {
+                this.introduction = introduction;
+        }
+
         public Integer getId() {
                 return id;
         }
@@ -54,15 +66,25 @@ public class Video {
                 this.vImg = vImg;
         }
 
+        public String getZone() {
+                return zone;
+        }
+
+        public void setZone(String zone) {
+                this.zone = zone;
+        }
+
         public Video() {
         }
 
-        public Video(Integer id, String vName, String vPath, Integer vAuthor, String vImg) {
+        public Video(Integer id, String vName, String vPath, Integer vAuthor, String vImg, String zone, String introduction) {
                 this.id = id;
                 this.vName = vName;
                 this.vPath = vPath;
                 this.vAuthor = vAuthor;
                 this.vImg = vImg;
+                this.zone = zone;
+                this.introduction = introduction;
         }
 
         @Override
@@ -73,6 +95,8 @@ public class Video {
                         ", vPath='" + vPath + '\'' +
                         ", vAuthor=" + vAuthor +
                         ", vImg='" + vImg + '\'' +
+                        ", zone='" + zone + '\'' +
+                        ", introduction='" + introduction + '\'' +
                         '}';
         }
 }
