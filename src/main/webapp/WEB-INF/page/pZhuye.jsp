@@ -51,11 +51,11 @@
                             <div class="form-group">
                                 <label for="name">分区</label>
                                 <select class="form-control" name="zone">
-                                    <option value="游戏区">游戏区</option>
-                                    <option value="舞蹈区">舞蹈区</option>
-                                    <option value="科技区">科技区</option>
-                                    <option value="生活区">生活区</option>
-                                    <option value="二次元">二次元</option>
+                                    <option value="game">游戏区</option>
+                                    <option value="dance">舞蹈区</option>
+                                    <option value="sc">科技区</option>
+                                    <option value="life">生活区</option>
+                                    <option value="2">二次元</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -68,6 +68,7 @@
                             </div>
                             <button type="submit" class="btn btn-default">提交</button>
                         </form>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -81,6 +82,7 @@
         <hr>
         <h4><a href="${APP_PATH}/toPage2">我的频道</a></h4>
         <hr>
+        <a href="${APP_PATH}/logout" id="log" class="btn btn-primary">退出登录</a>
     </div>
     <div class="col-md-5">
         <div class="panel panel-primary">
@@ -108,5 +110,7 @@
 
 <script src="js/jquery-3.5.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
+<script>
+</script>
 </body>
 </html>

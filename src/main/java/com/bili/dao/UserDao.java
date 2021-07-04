@@ -50,4 +50,18 @@ public interface UserDao {
      * @return
      */
     int updateNoticeById(@Param("id") Object id, @Param("notice") String notice);
+
+    /**
+     * 根据用户名返回id
+     * @param username
+     * @return
+     */
+    int selectIdByName(@Param("username") String username);
+
+    /**
+     * 通过id查询用户名
+     * @param id
+     * @return
+     */
+    String selectUsernameById(Integer id);
 }

@@ -3,6 +3,7 @@ package com.bili.controller;
 import com.bili.bean.Msg;
 import com.bili.bean.User;
 import com.bili.service.UserService;
+import com.bili.util.DegistUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,10 +38,18 @@ public class UserController {
 
         if(userCheck != null&&token.equalsIgnoreCase(userCheck)){
             System.out.println("验证码正确");
-            if(userService.login(id,password)!=null){
+            /**
+             * 对密码进行加密
+             */
+            String md5digest = DegistUtils.MD5digest(password);
+            if(userService.login(id,md5digest)!=null){
                 HttpSession session = httpServletRequest.getSession();
                 session.setAttribute("id",id);
-                return "redirect:index.jsp";
+                if(id==1){
+                    return "manage";
+                }else {
+                    return "redirect:index.jsp";
+                }
             }else {
                 model.addAttribute("msg","用户名或密码错误");
                 model.addAttribute("id",id);
@@ -67,7 +76,13 @@ public class UserController {
                 model.addAttribute("msg","用户名不可用");
                 return "Register";
             }else{
-                if (userService.register(new User(null,username,password,email,null,null,null))==1){
+                /**
+                 * 对密码进行加密
+                 */
+                String md5digest = DegistUtils.MD5digest(password);
+                if (userService.register(new User(null,username,md5digest,email,null,null,null))==1){
+                    int id = userService.getUserIdByName(username);
+                    model.addAttribute("id",id);
                     return "Login";
                 }else {
                     model.addAttribute("username",username);
@@ -92,15 +107,6 @@ public class UserController {
         return Msg.success();
     }
 
-    @RequestMapping("/login1")
-    public String login1(){
-        return "Login";
-    }
-
-    @RequestMapping("/register1")
-    public String register(){
-        return "Register";
-    }
 
     /**
      * 从首页点击个人主页,跳转到个人主页,request域中有user对象
@@ -153,4 +159,16 @@ public class UserController {
         }
         return Msg.fail();
     }
+
+    /**
+     * 登出
+     * @param request
+     * @return
+     */
+    @RequestMapping("logout")
+    public String logout(HttpServletRequest request){
+        request.getSession().invalidate();
+        return "redirect:index.jsp";
+    }
+
 }

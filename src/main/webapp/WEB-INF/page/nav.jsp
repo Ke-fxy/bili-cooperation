@@ -14,10 +14,15 @@
     <meta charset="utf-8">
     <title>导航栏</title>
     <link rel="stylesheet" href="${APP_PATH}/static/static/bootstrap/css/bootstrap.min.css">
+    <style>
+        #nav li a{
+            font-size: 15px;
+        }
+    </style>
 </head>
 
 <body>
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default" role="navigation" id="nav">
     <div class="container-fluid">
         <div class="navbar-header col-sm-5 col-md-5 ">
             <ul class="nav nav-tabs">
@@ -49,6 +54,9 @@
                         </li>
                         <li class="divider"></li>
                         <li role="presentation" class="dropdown-header">非视频</li>
+                        <li>
+                            <a href="${APP_PATH}/toMainPage">主站</a>
+                        </li>
                         <li>
                             <a href="#">活动</a>
                         </li>
@@ -126,6 +134,9 @@
         <div class="navbar-header col-md-3 col-sm-3">
             <ul class="nav nav-tabs">
                 <li>
+                    <a href="${APP_PATH}/getInfo?id=${id}">个人主页</a>
+                </li>
+                <li>
                     <a href="#">大会员</a>
                 </li>
                 <!-- <li>
@@ -139,9 +150,6 @@
                 </li>
                 <li>
                     <a href="#">历史记录</a>
-                </li>
-                <li>
-                    <a href="#">创作中心</a>
                 </li>
             </ul>
         </div>

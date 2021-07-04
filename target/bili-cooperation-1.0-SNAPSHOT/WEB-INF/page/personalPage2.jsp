@@ -200,6 +200,11 @@
                 .addClass("thumbnail")
                 .append(div1);
             var div3=$("<div></div>").append(div2).addClass(" col-md-3");
+
+            var input=$("<input>").attr("type","hidden").attr("value",item.id).attr("name","id");
+            var btn=$("<button></button>").attr("type","submit").attr("class","btn btn-default").append("播放").appendTo(input);
+            var form=$("<form></form>").attr("role","form").append(input).append(btn).attr("action","${APP_PATH}/start").attr("target","_blank");
+            var div3=$("<div></div>").append(div2).addClass(" col-md-3").append(form);
             $("#showVideo").append(div3);
         });
     };

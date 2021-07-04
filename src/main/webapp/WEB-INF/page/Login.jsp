@@ -125,15 +125,10 @@
                            autofocus="autofocus" maxlength="20" />
                 </div>
                 <div class="form-group">
-                    <label class="checkbox">
-                        <input type="checkbox" name="remember" value="1" id="xieyi" /> <label
-                            for="xieyi"><small>我已同意《哔哩哔哩弹幕网用户使用协议》</small></label>
-                    </label>
+                        <a href="${APP_PATH}/register1" id="register_btn" class="btn btn-primary pull-left">注册</a>
+                        <input type="submit" class="btn btn-success pull-right" id="login" value="登录" />
                     <hr />
-                    <a href="${APP_PATH}/register1" id="register_btn" class="">注册</a>
-                </div>
-                <div class="form-group">
-                    <input type="submit" class="btn btn-success pull-right" id="login" value="登录" />
+
                 </div>
                 <div class="form-group text-warning" >
                     <lead>${msg}</lead>

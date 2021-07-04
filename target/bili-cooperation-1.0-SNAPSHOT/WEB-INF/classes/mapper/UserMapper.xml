@@ -8,6 +8,9 @@
         <result property="username" column="username"></result>
         <result property="password" column="password"></result>
         <result property="email" column="email"></result>
+        <result property="img" column="img"></result>
+        <result property="tag" column="tag"></result>
+        <result property="notice" column="notice"></result>
     </resultMap>
 
     <select id="selectByIdAndPassword" resultType="com.bili.bean.User">
@@ -44,4 +47,16 @@
         set notice = #{notice}
         where id = #{id}
     </update>
+
+    <select id="selectIdByName" resultType="integer">
+        select id
+        from USER
+        where username=#{username}
+    </select>
+
+    <select id="selectUsernameById" resultType="String">
+        select username
+        from user
+        where id=#{id}
+    </select>
 </mapper>

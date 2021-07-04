@@ -26,4 +26,39 @@
             vAuthor = #{id}
         </where>
     </select>
+
+    <select id="selectByZone" resultType="com.bili.bean.Video">
+        select *
+        from video
+        <where>
+            zone = #{zone}
+        </where>
+    </select>
+
+    <select id="selectUNameByUId" resultType="String">
+        select distinct u.username
+        from video v,user u
+        where v.vAuthor = u.id
+        and v.vAuthor = #{vAuthor}
+    </select>
+
+    <select id="selectByVName" resultType="com.bili.bean.Video">
+        select *
+        from
+        video
+        where vName=#{vName}
+    </select>
+
+    <update id="update">
+        update video
+        set vName=#{vName},zone=#{zone},introduction=#{introduction}
+        where id=#{id}
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from
+        video
+        where id=#{id}
+    </delete>
 </mapper>

@@ -24,4 +24,12 @@
         <property name="defaultEncoding" value="UTF-8"></property>
     </bean>
 
+    <!--拦截器-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/WEB-INF/page/*"/>
+            <bean class="com.bili.util.ManagerInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
 </beans>

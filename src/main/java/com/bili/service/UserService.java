@@ -58,4 +58,12 @@ public class UserService {
     public int changeNotice(Object id, String notice) {
         return userDao.updateNoticeById(id,notice);
     }
+
+    public int getUserIdByName(String username) {
+        return userDao.selectIdByName(username);
+    }
+
+    public String getUsernameById(Integer id){
+        return userDao.selectUsernameById(id);
+    }
 }

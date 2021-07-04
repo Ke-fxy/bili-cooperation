@@ -42,4 +42,29 @@ public class VideoService {
         List<Video> videoList = videoDao.selectByAuthor(id);
         return videoList;
     }
+
+    public List<Video> getVideosByZone(String zone) {
+        List<Video> videoList = videoDao.selectByZone(zone);
+        return videoList;
+    }
+
+    public String getVAuthorNameByvAuthorId(Integer vAuthor) {
+        String i = videoDao.selectUNameByUId(vAuthor);
+        return i;
+    }
+
+    public int checkVName(String vName) {
+        if(videoDao.selectByVName(vName)!=null){
+            return 1;
+        }
+        return 0;
+    }
+
+    public int update(Integer id,String vName,String zone,String introduction) {
+        return videoDao.update(id,vName,zone,introduction);
+    }
+
+    public int delete(Integer id) {
+        return videoDao.deleteById(id);
+    }
 }
