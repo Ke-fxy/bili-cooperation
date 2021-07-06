@@ -41,23 +41,27 @@ public class VideoController {
      * @return
      */
     @RequestMapping("/upload1")
-    public String upload(HttpServletRequest request,Model model,@RequestParam("vName") String vName,@RequestParam("video") MultipartFile video,@RequestParam("vImg") MultipartFile vImg,@RequestParam("zone") String zone,@RequestParam("introduction") String introduction){
+    public String upload(HttpServletRequest request,Model model,@RequestParam(value = "vName",required = false) String vName,@RequestParam(value = "video",required = false) MultipartFile video,@RequestParam(value = "vImg",required = false) MultipartFile vImg,@RequestParam(value = "zone",required = false) String zone,@RequestParam(value = "introduction",required = false) String introduction){
 
         int id = (int) request.getSession().getAttribute("id");
-
-        if((video.getOriginalFilename().substring(video.getOriginalFilename().lastIndexOf(".")).equalsIgnoreCase(".mp4"))&&(vImg.getOriginalFilename().substring(vImg.getOriginalFilename().lastIndexOf(".")).equalsIgnoreCase(".jpeg"))){
-            try {
-                video.transferTo(new File("C:\\Users\\Ihlov\\IdeaProjects\\bili-cooperation\\src\\main\\webapp\\static\\upload\\video\\" + video.getOriginalFilename()));
-                vImg.transferTo(new File("C:\\Users\\Ihlov\\IdeaProjects\\bili-cooperation\\src\\main\\webapp\\static\\upload\\pic\\" + vImg.getOriginalFilename()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            videoService.save(new Video(null,vName,"upload/video/" + video.getOriginalFilename(),id,"upload/pic/" + vImg.getOriginalFilename(),zone,introduction));
-            model.addAttribute("msg","上传成功");
-            return "personalPage1";
-        }else {
+        if(video==null||vImg==null){
             model.addAttribute("msg","上传失败，请检查格式");
             return "personalPage1";
+        }else{
+            if((video.getOriginalFilename().substring(video.getOriginalFilename().lastIndexOf(".")).equalsIgnoreCase(".mp4"))&&(vImg.getOriginalFilename().substring(vImg.getOriginalFilename().lastIndexOf(".")).equalsIgnoreCase(".jpeg"))){
+                try {
+                    video.transferTo(new File("D:\\WeChat\\WeChat Files\\wxid_jxj0fv7gbz7v22\\FileStorage\\File\\2021-07\\bili-cooperation7.0\\src\\main\\webapp\\static\\upload\\video\\" + video.getOriginalFilename()));
+                    vImg.transferTo(new File("D:\\WeChat\\WeChat Files\\wxid_jxj0fv7gbz7v22\\FileStorage\\File\\2021-07\\bili-cooperation7.0\\src\\main\\webapp\\static\\upload\\pic\\" + vImg.getOriginalFilename()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                videoService.save(new Video(null,vName,"upload/video/" + video.getOriginalFilename(),id,"upload/pic/" + vImg.getOriginalFilename(),zone,introduction));
+                model.addAttribute("msg","上传成功");
+                return "personalPage1";
+            }else {
+                model.addAttribute("msg","上传失败，请检查格式");
+                return "personalPage1";
+            }
         }
     }
 

@@ -39,7 +39,7 @@
                     <div class="modal-body">
 
                         <!-- form -->
-                        <form role="form" action="${APP_PATH}/upload1" method="post" enctype="multipart/form-data">
+                        <form role="form" action="${APP_PATH}/upload1" method="post" enctype="multipart/form-data" id="videoUp">
                             <div class="form-group">
                                 <label for="name">视频标题</label>
                                 <input type="text" class="form-control" style="color: black" id="name" name="vName" placeholder="请输入视频标题">
@@ -111,6 +111,31 @@
 <script src="js/jquery-3.5.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>
 <script>
+    $("#videoUp").validate({
+        rules: {
+            vName: {
+                required:true,
+                maxlength: 8
+            },
+            introduction: {
+                required: true,
+            },
+            vImg:"required",
+            video:"required"
+        },
+        messages: {
+            name: {
+                required:"Please enter your video's name!",
+                maxlength: jQuery.format("The password cannot be more than {0} characters!")
+            },
+            introduction: {
+                required: "Please input an introduction!",
+            },
+            vImg:"Please select the file you want to upload!",
+            video:"Please select the file you want to upload!",
+            // userCheck: "Please enter Check Number!"
+        }
+    });
 </script>
 </body>
 </html>

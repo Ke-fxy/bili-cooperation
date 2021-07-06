@@ -163,7 +163,7 @@ public class UserController {
     /**
      * 登出
      * @param request
-     * @return
+     * @returna
      */
     @RequestMapping("logout")
     public String logout(HttpServletRequest request){

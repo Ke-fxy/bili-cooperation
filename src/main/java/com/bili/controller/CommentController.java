@@ -37,10 +37,10 @@ public class CommentController {
             int addComment = commentService.addComment(comment);
             if(addComment==1){
                 model.addAttribute("msg","评论发送成功");
-                return "forward:/start?id=" + vId;
+                return "redirect:/start?id=" + vId;
             }else {
                 model.addAttribute("msg","评论发送失败");
-                return "forward:/start?id=" + vId;
+                return "redirect:/start?id=" + vId;
             }
         }else {
             return "Login";
