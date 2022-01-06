@@ -29,9 +29,8 @@
     <!-- 播放 -->
     <div class="col-md-9">
         <div class="row" style="height: 60px;">
-            作品：<br>
-            <!-- 标题 -->
-            <h1>${video.vName}</h1><br>
+            <h2>作品：${video.vName}</h2>
+            <div id="play"></div>
         </div>
         <div class="row" style="height: 20px">
 
@@ -67,9 +66,18 @@
         <div class="row">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <h3 class="panel-title">
-                        up主：
-                    </h3>
+                    <div class="panel-title">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm-1">up主: </div>
+                                <div class="col-sm-11"><div id="btnC">
+
+                                </div></div>
+                            </div>
+                        </div>
+
+
+                    </div>
                 </div>
                 <div class="panel-body">
                     <lead>${authorId}</lead>
@@ -120,9 +128,79 @@
 
     $(function (){
         to_Page(1);
+        addClickNum(${video.id});
+        checkConcern(${video.vAuthor});
     });
 
+    function checkConcern(zz){
+        // alert(zz);
+        $.ajax({
+            url:"${APP_PATH}/checkConcern",
+            data:"concernedId=" + zz ,
+            type:"GET",
+            success:function (result){
+                showConcern(result);
+            }
+        });
+    }
+    function showConcern(result){
+        $("#btnC").empty();
+        // alert(2);
+        var ems=result.extend.checkConcern;
+        // alert(ems);
+        if(ems==1){
+            var btn1= $("<button></button>").attr("onClick", "deleteConcern(${video.vAuthor})").addClass("btn btn-default btn-sm active").append("已关注");
+            $("#btnC").append(btn1);
+        }else{
+            var btn2= $("<button></button>").attr("onClick", "addConcern(${video.vAuthor})").addClass("btn btn-warning btn-sm").append("wei关注");
+            $("#btnC").append(btn2);
+        }
+    }
 
+    function deleteConcern(zz){
+        // alert(777);
+        $("#btnC").empty();
+        $.ajax({
+            url:"${APP_PATH}/deleteConcern",
+            data:"concernedId=" + zz ,
+            type:"GET",
+            success:function (){
+                checkConcern(${video.vAuthor});
+            }
+        });
+    }
+
+    function addConcern(zz){
+        $("#btnC").empty();
+        $.ajax({
+            url:"${APP_PATH}/addConcern",
+            data:"concernedId=" + zz ,
+            type:"GET",
+            success:function (){
+                checkConcern(${video.vAuthor});
+            }
+        });
+    }
+
+    function addClickNum(vId){
+        $.ajax({
+            url:"${APP_PATH}/addClickNum",
+            data:"vId=" + vId ,
+            type:"GET",
+            success:function (result){
+                showClick(result);
+            }
+        });
+    }
+
+    function showClick(result){
+        $("#play").empty();
+        var label="播放量：";
+        var ems=result.extend.clickNum;
+        ems=label+ems;
+        var div3 = $("<small></small>").append(ems);
+        $("#play").append(div3);
+    }
 
     function to_Page(pn){
         $.ajax({
@@ -134,18 +212,16 @@
                 build_emps_table(result);
                 //2.解析并显示分页信息
                 // alert("!!");
-                build_page_info(result);
+                // build_page_info(result);
                 //3.分页条
-                build_page_nav(result);
+                // build_page_nav(result);
             }
         });
     }
 
-
     function build_emps_table(result){
         //首先得清空表格
         $("#comment").empty();
-
         var emps = result.extend.pageInfo.list;
         $.each(emps,function (index,item){
             var time = $("<small></small>").append(new Date(item.time));
@@ -155,63 +231,10 @@
             // alert("??");
             var div3 = $("<div></div>").addClass("panel").addClass("panel-info").append(div2).append(div1);
             $("#comment").append(div3);
-
             // vName,评论, 时间
         });
     };
 
-    function build_page_info(result){
-        $("#page_info_area").empty();
-
-        $("#page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页，总"+result.extend.pageInfo.pages+"叶，总记录数"+result.extend.pageInfo.total+"条");
-    }
-
-    function build_page_nav(result){
-        $("#page_nav_area").empty();
-
-        var ul = $("<ul></ul>").addClass("pagination");
-        var firstPageLi = $("<li></li>").append($("<a></a>").append("首页"));
-        var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
-        if(result.extend.pageInfo.hasPreviousPage == false){
-            prePageLi.addClass("disabled");
-            firstPageLi.addClass("disabled");
-        }else {
-            firstPageLi.click(function (){
-                to_Page(1);
-            });
-            prePageLi.click(function (){
-                to_Page(result.extend.pageInfo.pageNum - 1);
-            });
-        }
-        var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
-        var lastPageLi = $("<li></li>").append($("<a></a>").append("末页"));
-        if (result.extend.pageInfo.hasNextPage == false){
-            nextPageLi.addClass("disabled");
-            lastPageLi.addClass("disabled");
-        }else{
-            nextPageLi.click(function (){
-                to_Page(result.extend.pageInfo.pageNum + 1);
-            });
-            lastPageLi.click(function (){
-                to_Page(result.extend.pageInfo.pages);
-            });
-        }
-        ul.append(firstPageLi).append(prePageLi);
-        var pages = result.extend.pageInfo.navigatepageNums;
-        $.each(pages,function (index,item){
-            var numLi = $("<li></li>").append($("<a></a>").append(item));
-            if(result.extend.pageInfo.pageNum == item){
-                numLi.addClass("active");
-            }
-            numLi.click(function (){
-                to_Page(item);
-            });
-            ul.append(numLi);
-        });
-        ul.append(nextPageLi).append(lastPageLi);
-        var navEle = $("<nav></nav>").append(ul);
-        navEle.appendTo("#page_nav_area");
-    }
 </script>
 </body>
 </html>

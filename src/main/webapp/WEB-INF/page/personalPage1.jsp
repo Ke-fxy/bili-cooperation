@@ -123,10 +123,10 @@
         <div class="navbar-header col-md-4 col-sm-4">
             <ul class="nav nav-tabs">
                 <li>
-                    <a href="#"><small>关注数</small></a>
+                    <a href="${APP_PATH}/toSub" target="_blank"><small>关注</small></a>
                 </li>
                 <li>
-                    <a href="#"><small>粉丝数</small></a>
+                    <a href="${APP_PATH}/toConcern" target="_blank"><small>粉丝</small></a>
                 </li>
                 <li>
                     <a href="#"><small>播放数</small></a>

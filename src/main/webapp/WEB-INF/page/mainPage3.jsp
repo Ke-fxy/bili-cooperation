@@ -107,7 +107,7 @@
                     <a href="#">动态</a>
                 </div>
                 <div class="col-md-3 text-center">
-                    <a href="#">热门</a>
+                    <a href="${APP_PATH}/toHot">热门</a>
                 </div>
                 <div class="col-md-3 text-center">
                     <a href="#">频道</a>
@@ -261,7 +261,7 @@
 
         var emps = result.extend.pageInfo.list;
         $.each(emps,function (index,item){
-            var pic = $("<img>").attr("src",item.vImg);
+            var pic = $("<img>").attr("src","static/"+item.vImg);
             var title=$("<h3></h3>").append(item.vName);
             var aut=$("<p></p>").append(item.vAuthor);
             var id=$("<p></p >").append(item.introduction);

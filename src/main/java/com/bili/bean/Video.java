@@ -18,6 +18,8 @@ public class Video {
 
         private String introduction;
 
+        private Integer clickNum;
+
         public String getIntroduction() {
                 return introduction;
         }
@@ -74,10 +76,18 @@ public class Video {
                 this.zone = zone;
         }
 
+        public Integer getClickNum() {
+                return clickNum;
+        }
+
+        public void setClickNum(Integer clickNum) {
+                this.clickNum = clickNum;
+        }
+
         public Video() {
         }
 
-        public Video(Integer id, String vName, String vPath, Integer vAuthor, String vImg, String zone, String introduction) {
+        public Video(Integer id, String vName, String vPath, Integer vAuthor, String vImg, String zone, String introduction, Integer clickNum) {
                 this.id = id;
                 this.vName = vName;
                 this.vPath = vPath;
@@ -85,6 +95,7 @@ public class Video {
                 this.vImg = vImg;
                 this.zone = zone;
                 this.introduction = introduction;
+                this.clickNum = clickNum;
         }
 
         @Override
@@ -97,6 +108,7 @@ public class Video {
                         ", vImg='" + vImg + '\'' +
                         ", zone='" + zone + '\'' +
                         ", introduction='" + introduction + '\'' +
+                        ", clickNum=" + clickNum +
                         '}';
         }
 }

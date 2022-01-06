@@ -261,7 +261,7 @@
 
         var emps = result.extend.pageInfo.list;
         $.each(emps,function (index,item){
-            var pic = $("<img>").attr("src",item.vImg);
+            var pic = $("<img>").attr("src","static/"+item.vImg);
             var title=$("<h3></h3>").append(item.vName);
             var aut=$("<p></p>").append(item.vAuthor);
             var id=$("<p></p >").append(item.introduction);

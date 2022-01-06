@@ -54,4 +54,19 @@ public class MainController {
     public String toPage2(){
         return "personalPage2";
     }
+
+    @RequestMapping("/toHot")
+    public String toHot(){
+        return "hot";
+    }
+
+    @RequestMapping("/toSub")
+    public String toSub(){
+        return "subscription";
+    }
+
+    @RequestMapping("/toConcern")
+    public String toConcern(){
+        return "concern";
+    }
 }

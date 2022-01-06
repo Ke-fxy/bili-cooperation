@@ -202,7 +202,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-3" id="myScrollspy">
+        <div class="col-xs-2" id="myScrollspy">
             <ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="350">
                 <li><a href="#section-1">游戏区</a></li>
                 <li><a href="${APP_PATH}/toMainPage2">舞蹈区</a></li>
@@ -211,7 +211,7 @@
                 <li><a href="${APP_PATH}/toMainPage5">二次元</a></li>
             </ul>
         </div>
-        <div class="col-xs-9">
+        <div class="col-xs-7">
             <h2 id="section-1">游戏区</h2>
             <div  id="zone1" class="row">
             </div>
@@ -226,14 +226,70 @@
             <hr>
             <hr>
         </div>
+        <div class="col-xs-3" >
+            <h3>排行榜 TOP5</h3>
+            <div class="list-group" id="topz">
+                <div>
+                    <a href="#" class="list-group-item" id="t1"><em style="font-size: 25px ">1 </em>24*7 支持</a>
+                </div>
+                <div>
+                    <a href="#" class="list-group-item" id="t2"><em style="font-size: 17px ">2 </em>免费 Window 空间托管</a>
+                </div>
+                <div>
+                    <a href="#" class="list-group-item" id="t3"><em style="font-size: 17px ">3 </em>图像的数量</a>
+                </div>
+                <div>
+                    <a href="#" class="list-group-item" id="t4"><em style="font-size:17px ">4 </em>每年更新成本</a>
+                </div>
+                <div>
+                    <a href="#" class="list-group-item" id="t5"><em style="font-size:17px ">5 </em>每年更新成本</a>
+                </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     $(function (){
         to_Page(1,"game","#zone1","#pia1","#pna1");
+        hotTop("game");
     });
 
+    function hotTop(pn){
+        $.ajax({
+            url:"${APP_PATH}/getRank1",
+            data:"zone=" + pn,
+            type:"GET",
+            success:function (result){
+                //1.解析并显示员工数据
+                build_emps_table1(result);
+                //2.解析并显示分页信息
+                // alert("!!");
+                // build_page_info(result);
+                //3.分页条
+                // build_page_nav(result);
+            }
+        });
+    }
+
+
+    function build_emps_table1(result){
+        //首先得清空表格
+        $("#topz").empty();
+
+        var emps = result.extend.videoList;
+        $.each(emps,function (index,item){
+            var time = $("<em></em>").addClass(".text-uppercase").append(index+1).append(" ").append(item.vName).append("<br>");
+            var vName = $("<small></small>").append(item.introduction);
+            // alert("??");
+            var ah = $("<a></a>").attr("href", "#").addClass("list-group-item").append(time).append(vName);
+            // var bl = $("<blockquote></blockquote>").append(time).append(vName);
+            // var ah = $("<a></a>").attr("href", "#").addClass("list-group-item").append(bl);
+            // var div3 = $("<div></div>").addClass("list-group-item").append(ah);
+            $("#topz").append(ah);
+        });
+    };
 
 
     function to_Page(pn, zone, zoneDiv,pia,pna){
@@ -263,9 +319,9 @@
         var emps = result.extend.pageInfo.list;
         $.each(emps,function (index,item){
             var pic = $("<img>").attr("src",item.vImg);
-            var title=$("<h3></h3>").append(item.vName);
+            var title=$("<h4></h4>").append(item.vName);
             var aut=$("<p></p>").append(item.vAuthor);
-            var id=$("<p></p >").append(item.introduction);
+            var id=$("<small></small>").append(item.introduction);
             var div1=$("<div></div>").append(title)
                 .addClass("caption")
                 .append(aut)
@@ -273,7 +329,6 @@
             var div2=$("<div></div>").append(pic)
                 .addClass("thumbnail")
                 .append(div1);
-
             var zz =item.id;
             var input=$("<input>").attr("type","hidden").attr("value",item.id).attr("name","id");
             var btn=$("<button></button>").attr("type","submit").attr("class","btn btn-default").append("播放").appendTo(input);

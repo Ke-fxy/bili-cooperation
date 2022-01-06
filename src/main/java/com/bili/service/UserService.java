@@ -1,9 +1,14 @@
 package com.bili.service;
 
+import com.bili.bean.Concern;
 import com.bili.bean.User;
 import com.bili.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.sql.Timestamp;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -65,5 +70,39 @@ public class UserService {
 
     public String getUsernameById(Integer id){
         return userDao.selectUsernameById(id);
+    }
+
+    public int addConcern(int id, Integer concernedId) {
+        Date date = new Date();
+        int i = userDao.insertConcern(new Concern(null, id, concernedId, new Timestamp(date.getTime())));
+        return i;
+    }
+
+    public int checkConcern(int id, Integer concernedId) {
+        Concern concern = userDao.checkConcern(id, concernedId);
+        if (concern!=null){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    public int deleteConcern(int id, Integer concernedId) {
+        int i = userDao.cancelConcern(id, concernedId);
+        if (i!=0){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    public List<User> getConcerners(Integer id) {
+        List<User> users = userDao.selectConcerns(id);
+        return users;
+    }
+
+    public List<User> getConcerneds(Integer id) {
+        List<User> users = userDao.selectConcerneds(id);
+        return users;
     }
 }

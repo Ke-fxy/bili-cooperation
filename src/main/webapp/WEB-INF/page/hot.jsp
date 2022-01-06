@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: 10047
-  Date: 2021/7/3
-  Time: 10:34
+  Date: 2022/1/5
+  Time: 20:37
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -65,18 +65,20 @@
         border-radius: 0 0 4px 4px;
     }
 
-     ul.nav-tabs.affix {
+    ul.nav-tabs.affix {
         top: 30px;
         /* Set the top position of pinned element */
+    }
+
+    #si a{
+        text-decoration: none;
     }
 </style>
 
 <body data-spy="scroll" data-target="#myScrollspy">
 
 <%@ include file="nav1.jsp"%>
-<div class="container-fluid">
 
-</div>
 <div class="container">
     <div class="row" style="height: 66px;">
         <!-- 四个超链接 -->
@@ -99,16 +101,24 @@
                                              style="width: 100%;"></a>
                 </div>
             </div>
-            <div class="row" style="height: 20px;">
+            <div class="row" style="height: 20px;" id="si">
                 <div class="col-md-3 text-center">
                     <a href="#">首页</a>
                 </div>
                 <div class="col-md-3 text-center">
                     <a href="#">动态</a>
                 </div>
+<%--                !!!!!!!--%>
+
+
                 <div class="col-md-3 text-center">
-                    <a href="${APP_PATH}/toHot">热门</a>
+                    <a href="#">热门</a>
                 </div>
+
+
+<%--!!!!!!!--%>
+
+
                 <div class="col-md-3 text-center">
                     <a href="#">频道</a>
                 </div>
@@ -165,133 +175,40 @@
     </div>
 </div>
 <div class="container">
-    <div class="jumbotron">
-        <div id="myCarousel" class="carousel slide">
-            <!-- 轮播（Carousel）指标 -->
-            <ol class="carousel-indicators">
-                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                <li data-target="#myCarousel" data-slide-to="1"></li>
-                <li data-target="#myCarousel" data-slide-to="2"></li>
-            </ol>
-            <!-- 轮播（Carousel）项目 -->
-            <div class="carousel-inner">
-                <div class="item active">
-                    <img src="${APP_PATH}/static/img/55.jpeg" alt="First slide">
-                    <div class="carousel-caption">标题 1</div>
-                </div>
-                <div class="item">
-                    <img src="${APP_PATH}/static/img/66.jpeg" alt="Second slide">
-                    <div class="carousel-caption">标题 2</div>
-                </div>
-                <%--                <div class="item">--%>
-                <%--                    <img src="${APP_PATH}/static/img/44.jpeg" alt="Third slide">--%>
-                <%--                    <div class="carousel-caption">标题 3</div>--%>
-                <%--                </div>--%>
-            </div>
-            <!-- 轮播（Carousel）导航 -->
-            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-2" id="myScrollspy">
-            <ul class="nav nav-tabs nav-stacked" data-spy="affix" data-offset-top="350">
-                <li><a href="${APP_PATH}/toMainPage">游戏区</a></li>
-                <li><a href="#section-2">舞蹈区</a></li>
-                <li><a href="${APP_PATH}/toMainPage3">科技区</a></li>
-                <li><a href="${APP_PATH}/toMainPage4">生活区</a></li>
-                <li><a href="${APP_PATH}/toMainPage5">二次元</a></li>
-            </ul>
-        </div>
-        <div class="col-xs-7">
-            <h2 id="section-2">舞蹈区</h2>
-            <div  id="zone2" class="row">
+    <h1>热门榜</h1>
+    <div class="row" id="top">
+        <div class="col-lg-6" id="pia7">
 
-            </div>
-            <div class="row">
-                <div class="col-lg-6" id="pia2">
-
-                </div>
-                <div class="col-lg-6" id="pna2">
-
-                </div>
-            </div><%--分页--%>
-            <hr>
-            <hr>
         </div>
-        <div class="col-xs-3" >
-            <h3>排行榜 TOP5</h3>
-            <div class="list-group" id="topz1">
+        <div class="col-lg-6" id="pna7">
 
-            </div>
         </div>
-    </div>
     </div>
 </div>
 
 <script>
     $(function (){
-        to_Page(1,"dance","#zone2","#pia2","#pna2");
-        hotTop("dance");
+        getRank(1,"#top","#pia7","#pna7");
     });
 
-    function hotTop(pn){
+
+
+    function getRank(pn, zoneDiv,pia,pna){
         $.ajax({
-            url:"${APP_PATH}/getRank1",
-            data:"zone=" + pn,
-            type:"GET",
-            success:function (result){
-                //1.解析并显示员工数据
-                build_emps_table2(result);
-                //2.解析并显示分页信息
-                // alert("!!");
-                // build_page_info(result);
-                //3.分页条
-                // build_page_nav(result);
-            }
-        });
-    }
-
-
-    function build_emps_table2(result){
-        //首先得清空表格
-        $("#topz1").empty();
-
-        var emps = result.extend.videoList;
-        $.each(emps,function (index,item){
-            var time = $("<em></em>").addClass(".text-uppercase").append(index+1).append(" ").append(item.vName).append("<br>");
-            var vName = $("<small></small>").append(item.introduction);
-            // alert("??");
-            var ah = $("<a></a>").attr("href", "#").addClass("list-group-item").append(time).append(vName);
-            // var bl = $("<blockquote></blockquote>").append(time).append(vName);
-            // var ah = $("<a></a>").attr("href", "#").addClass("list-group-item").append(bl);
-            // var div3 = $("<div></div>").addClass("list-group-item").append(ah);
-            $("#topz1").append(ah);
-        });
-    };
-
-    function to_Page(pn, zone, zoneDiv,pia,pna){
-        $.ajax({
-            url:"${APP_PATH}/getVideosByZone",
-            data:"pn=" + pn+"&zone="+ zone,
+            url:"${APP_PATH}/getRank",
+            data:"",
             type:"GET",
             success:function (result){
                 //1.解析并显示员工数据
                 // alert(zoneDiv);
                 build_emps_table(result, zoneDiv);
-                // 2.解析并显示分页信息
-                 build_page_info(result,pia);
+              /*  // 2.解析并显示分页信息
+                build_page_info(result,pia);
                 //3.分页条
-                 build_page_nav(result,pna);
+                build_page_nav(result,pna);*/
             }
 
-     })
+        })
     }
 
 
@@ -300,20 +217,17 @@
         $(zoneDiv).empty();
 
 
-        var emps = result.extend.pageInfo.list;
+        var emps = result.extend.videoList.list;
         $.each(emps,function (index,item){
-            var pic = $("<img>").attr("src","static/"+item.vImg);
-            var title=$("<h4></h4>").append(item.vName);
-            var aut=$("<p></p>").append(item.vAuthor);
-            var id=$("<p></p >").append(item.introduction);
+            var pic = $("<img>").attr("src",item.vImg);
+            var title=$("<blockquote></blockquote>").append(item.vName);
+            var aut=$("<small></small>").append(item.vAuthor);
+            var id=$("<small></small>").append(item.introduction);
             var div1=$("<div></div>").append(title)
-                .addClass("caption")
                 .append(aut)
                 .append(id);
             var div2=$("<div></div>").append(pic)
-                .addClass("thumbnail")
                 .append(div1);
-
             var zz =item.id;
             var input=$("<input>").attr("type","hidden").attr("value",item.id).attr("name","id");
             var btn=$("<button></button>").attr("type","submit").attr("class","btn btn-default").append("播放").appendTo(input);
@@ -321,20 +235,20 @@
             // alert(input.val()+"??");
             <%--.attr("action","${APP_PATH}/start").attr("target","_blank");--%>
             // $(zoneDiv).append(form);
-            var div3=$("<div></div>").append(div2).addClass(" col-md-3").append(form);
+            var div3=$("<div></div>").append(div2).addClass("col-md-9").append(form);
             $(zoneDiv).append(div3);
             // #item.zone
         });
     };
 
-    function build_page_info(result,pia){
+    /*function build_page_info(result,pia){
 
         $(pia).empty();
 
         $(pia).append("当前"+result.extend.pageInfo.pageNum+"页，总"+result.extend.pageInfo.pages+"叶，总记录数"+result.extend.pageInfo.total+"条");
-    }
+    }*/
 
-    function build_page_nav(result,pna){
+    /*function build_page_nav(result,pna){
         $(pna).empty();
 
         var ul = $("<ul></ul>").addClass("pagination");
@@ -345,10 +259,10 @@
             firstPageLi.addClass("disabled");
         }else {
             firstPageLi.click(function (){
-                to_Page(1,"dance","#zone2","#pia2","#pna2");
+                to_Page(1,"#top","#pia7","#pna7");
             });
             prePageLi.click(function (){
-                to_Page(result.extend.pageInfo.pageNum - 1,"dance","#zone2","#pia2","#pna2");
+                to_Page(result.extend.pageInfo.pageNum - 1,"#top","#pia7","#pna7");
             });
         }
         var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
@@ -358,10 +272,10 @@
             lastPageLi.addClass("disabled");
         }else{
             nextPageLi.click(function (){
-                to_Page(result.extend.pageInfo.pageNum + 1,"dance","#zone2","#pia2","#pna2");
+                to_Page(result.extend.pageInfo.pageNum + 1,"#top","#pia7","#pna7");
             });
             lastPageLi.click(function (){
-                to_Page(result.extend.pageInfo.pages,"dance","#zone2","#pia2","#pna2");
+                to_Page(result.extend.pageInfo.pages,"#top","#pia7","#pna7");
             });
         }
         ul.append(firstPageLi).append(prePageLi);
@@ -372,14 +286,14 @@
                 numLi.addClass("active");
             }
             numLi.click(function (){
-                to_Page(item,"dance","#zone2","#pia2","#pna2");
+                to_Page(item,"#top","#pia7","#pna7");
             });
             ul.append(numLi);
         });
         ul.append(nextPageLi).append(lastPageLi);
         var navEle = $("<nav></nav>").append(ul);
         navEle.appendTo(pna);
-    }
+    }*/
 </script>
 <script src="js/jquery-3.5.1.min.js"></script>
 <script src="bootstrap/js/bootstrap.min.js"></script>

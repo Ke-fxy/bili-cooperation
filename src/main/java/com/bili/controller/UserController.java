@@ -4,6 +4,8 @@ import com.bili.bean.Msg;
 import com.bili.bean.User;
 import com.bili.service.UserService;
 import com.bili.util.DegistUtils;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +17,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
+
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
 /**
- * @author Ihlov
+ * @author Ke
  */
 @Controller
 public class UserController {
@@ -171,4 +175,65 @@ public class UserController {
         return "redirect:index.jsp";
     }
 
+    @RequestMapping("/addConcern")
+    @ResponseBody
+    public Msg addConcern(HttpServletRequest httpServletRequest,
+            @RequestParam("concernedId") Integer concernedId){
+        int id = (int)httpServletRequest.getSession().getAttribute("id");
+        int i = userService.addConcern(id, concernedId);
+        if (i!=0){
+            return Msg.success();
+        }else {
+            return Msg.fail();
+        }
+    }
+
+    @RequestMapping("/checkConcern")
+    @ResponseBody
+    public Msg checkConcern(HttpServletRequest httpServletRequest,
+                            @RequestParam("concernedId") Integer concernedId){
+        int id = (int)httpServletRequest.getSession().getAttribute("id");
+        int checkConcern = userService.checkConcern(id, concernedId);
+        return Msg.success().add("checkConcern",checkConcern);
+    }
+
+    @RequestMapping("/deleteConcern")
+    @ResponseBody
+    public Msg deleteConcern(HttpServletRequest httpServletRequest,
+                             @RequestParam("concernedId") Integer concernedId){
+        int id = (int)httpServletRequest.getSession().getAttribute("id");
+        int i = userService.deleteConcern(id, concernedId);
+        if (i!=0){
+            return Msg.success();
+        }else {
+            return Msg.fail();
+        }
+    }
+
+    @RequestMapping("/getConcerners")
+    @ResponseBody
+    public Msg getConcerners(@RequestParam(value = "pn",defaultValue ="1") Integer pn,@RequestParam("id") Integer id){
+        List<User> concerners = userService.getConcerners(id);
+        if (concerners!=null){
+            PageHelper.startPage(pn,8);
+            PageInfo pageInfo = new PageInfo(concerners,5);
+            System.out.println(pageInfo);
+            return Msg.success().add("pageInfo",pageInfo);
+        }else {
+            return Msg.fail();
+        }
+    }
+
+    @RequestMapping("/getConcerneds")
+    @ResponseBody
+    public Msg getConcerneds(@RequestParam(value = "pn",defaultValue ="1") Integer pn,@RequestParam("id") Integer id){
+        List<User> concerneds = userService.getConcerneds(id);
+        if (concerneds!=null){
+            PageHelper.startPage(pn,8);
+            PageInfo pageInfo = new PageInfo(concerneds,5);
+            return Msg.success().add("pageInfo",pageInfo);
+        }else {
+            return Msg.fail();
+        }
+    }
 }

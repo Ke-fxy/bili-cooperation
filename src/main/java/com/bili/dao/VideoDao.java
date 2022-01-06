@@ -2,6 +2,8 @@ package com.bili.dao;
 
 import com.bili.bean.Video;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -75,4 +77,33 @@ public interface VideoDao {
      * @return
      */
     int deleteById(@Param("id") Integer id);
+
+    /**
+     * 增加播放量
+     * @return
+     * @param vId
+     * @param clickNum
+     */
+    @Update("update video set click_num=#{clickNum} where id=#{vId}")
+    int updateClickNum(@Param("vId") Integer vId,
+                       @Param("clickNum") Integer clickNum);
+
+    /**
+     * 查看一个视频的播放量
+     * @param vId
+     * @return
+     */
+    @Select("select click_num from video where id=#{vId}")
+    int selectClickNumByvId(Integer vId);
+
+    /**
+     * 查询播放量最高的5个视频
+     * @param zone
+     * @return
+     */
+    @Select("select * from video where zone = #{zone} order by click_num DESC limit 5")
+    List<Video> selectBiggestClickNumByZone(String zone);
+
+    @Select("select * from video order by click_num DESC limit 5")
+    List<Video> selectBiggestClickNum();
 }

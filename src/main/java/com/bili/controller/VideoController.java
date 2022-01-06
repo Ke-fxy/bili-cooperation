@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.DigestUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -50,12 +47,12 @@ public class VideoController {
         }else{
             if((video.getOriginalFilename().substring(video.getOriginalFilename().lastIndexOf(".")).equalsIgnoreCase(".mp4"))&&(vImg.getOriginalFilename().substring(vImg.getOriginalFilename().lastIndexOf(".")).equalsIgnoreCase(".jpeg"))){
                 try {
-                    video.transferTo(new File("D:\\WeChat\\WeChat Files\\wxid_jxj0fv7gbz7v22\\FileStorage\\File\\2021-07\\bili-cooperation7.0\\src\\main\\webapp\\static\\upload\\video\\" + video.getOriginalFilename()));
-                    vImg.transferTo(new File("D:\\WeChat\\WeChat Files\\wxid_jxj0fv7gbz7v22\\FileStorage\\File\\2021-07\\bili-cooperation7.0\\src\\main\\webapp\\static\\upload\\pic\\" + vImg.getOriginalFilename()));
+                    video.transferTo(new File("C:\\Users\\Administrator\\IdeaProjects\\bili-cooperation\\src\\main\\webapp\\static\\upload\\video" + video.getOriginalFilename()));
+                    vImg.transferTo(new File("C:\\Users\\Administrator\\IdeaProjects\\bili-cooperation\\src\\main\\webapp\\static\\upload\\pic" + vImg.getOriginalFilename()));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                videoService.save(new Video(null,vName,"upload/video/" + video.getOriginalFilename(),id,"upload/pic/" + vImg.getOriginalFilename(),zone,introduction));
+                videoService.save(new Video(null,vName,"upload/video/" + video.getOriginalFilename(),id,"upload/pic/" + vImg.getOriginalFilename(),zone,introduction,0));
                 model.addAttribute("msg","上传成功");
                 return "personalPage1";
             }else {
@@ -187,4 +184,35 @@ public class VideoController {
         return "manage";
 
     }
+
+    /**
+     * 点击播放后将视频的播放量增加一个随机数
+     * @return
+     */
+    @GetMapping("/addClickNum")
+    @ResponseBody
+    public Msg addClickNum(@RequestParam("vId") Integer vId){
+        int i = videoService.addClickNum(vId);
+        if (i!=0){
+            return Msg.success().add("clickNum",i);
+        }else {
+            return Msg.fail();
+        }
+    }
+
+
+    @GetMapping("/getRank1")
+    @ResponseBody
+    public Msg getRankWithZone(String zone){
+        List<Video> videoList = videoService.getRankByZone(zone);
+        return Msg.success().add("videoList",videoList);
+    }
+
+    @GetMapping("/getRank")
+    @ResponseBody
+    public Msg getRankWith(String zone){
+        List<Video> videoList = videoService.getRank();
+        return Msg.success().add("videoList",videoList);
+    }
+
 }
